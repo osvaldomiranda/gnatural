@@ -1,0 +1,148 @@
+== Pre-deploy knowledge
+
+First we need know some basic stuff:
+
+1) What is a VPS: http://en.wikipedia.org/wiki/Virtual_private_server
+
+2) Connecting to a remote server it's done by using SSH with the command <code>ssh root@XX.XX.XXX.XXX</code>. 
+Where root can be replaced with any user in the remote server, and XX.XX.XXX.XXX is the ip of the remote server. 
+So when we say "In the VPS, execute: " then you must connect to the server by using that command.
+  
+3) You need to understand what SSH key is, or at least how to add them to github. http://en.wikipedia.org/wiki/Secure_Shell
+
+== Deploy instructions
+[Step 1) Build a VPS]
+  Go to your VPS provider and create a server with Ubuntu 14.04. This deploy might work with older versions of Ubuntu, 
+  but it's on your own risk.
+  
+[Step 2) Set SSH keys at github]
+  Set SSH keys for both your local machine, and VPS. You might already added SSH keys for your local machine.
+  
+  Instructions for github: https://help.github.com/articles/generating-ssh-keys
+  
+  Instructions for bitbucket: https://confluence.atlassian.com/display/BITBUCKET/Set+up+SSH+for+Git
+  
+[Step 3) Change password (optional)] 
+  In the VPS, execute:
+  
+  <code>passwd</code>
+
+[Step 4) Create a deployer user]
+  In the VPS, execute:
+  
+  <code>sudo adduser deployer</code>
+  
+  You can use default fields, just press enter untill it's done
+
+[Step 5) Give sudo privileges to deployer]
+  In the VPS, execute:
+  
+  <code>sudo adduser deployer sudo</code>
+
+[Step 6) IP and Git setup]
+  At config/deploy.rb set up IP and git credentials for your app
+
+[Step 7) Install necesary programs]
+  In the app folder, execute:
+  
+  <code>cap deploy:install</code>
+  
+  This command will install:
+  1. libxslt
+  2. python
+  3. nginx
+  4. postresql
+  5. nodejs
+  6. make
+  7. redis
+  8. rbenv
+
+
+[Step 8) Install ruby]
+  In the VPS, execute:
+
+  <code>apt-get install -y libreadline-dev<code>
+  
+  <code>rbenv install 2.2.2</code>
+  
+  <code>rbenv global 2.2.2</code>
+  
+  <code>ruby -v</code>
+
+
+[Step 9) Install java]
+  In the VPS, execute:
+  
+  <code>sudo add-apt-repository ppa:webupd8team/java</code>
+  
+  <code>sudo apt-get -y update</code>
+  
+  <code>sudo apt-get -y install oracle-java7-installer</code>
+
+
+[Step 10) Setup]
+  In the app folder, execute:
+  
+  <code>cap deploy:setup</code>
+
+[Step 11) Install bundler]
+  In the app folder, execute:
+
+  <code>cap bundler:install</code>
+
+[Step 12) Deploy]
+  In the app folder, execute:
+
+  <code>cap deploy:cold</code>
+
+  If this error arises:
+  
+  <i>An error occurred while installing json (1.8.1), and Bundler cannot continue.
+  Make sure that `gem install json -v '1.8.1'` succeeds before bundling.</i>
+  
+  
+  Go to the VPS, and execute:
+  
+  <code>sudo gem install json -v '1.8.1'</code>
+
+== Integration with your project
+To make this recipes in your own project, you need to copy the following files in the same 
+folders:
+
+capistrano_deploy/Capfile
+capistrano_deploy/config/deploy.rb
+capistrano_deploy/recipes/*
+
+And add the following lines to your Gemfile:
+
+<code>
+group :production do
+  # For PostreSQL
+  gem 'pg'
+
+  # Use unicorn as the app server
+  gem 'unicorn'
+end
+
+group :development do
+  # Use sqlite3 as the database for Active Record
+  gem 'sqlite3'
+
+  # Remote multi-server automation tool http://www.capistranorb.com
+  gem 'capistrano', '~> 2.15.5', group: :development
+
+  # Pure Ruby implementation of an SSH (protocol 2) client 
+  gem 'net-ssh', '~> 2.7.0'
+end
+</code>
+
+== Fresh start
+If you want to make a new rails project, I recommend to clone this repository and replace the words "capistrano_deploy" and "CapistranoDeploy" with the name of your project.
+
+For instance if the name of your project is MyRailsApp, then you should do the following replacements:
+
+capistrano_deploy -> my_rails_app
+CapistranoDeploy  -> MyRailsApp
+
+Make sure to make a case sensitive replacement
+
