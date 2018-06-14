@@ -66,8 +66,7 @@ gem 'pg', '~>0.17.1'
 # for autentication
 gem 'devise'
 
-#For botstrap
-gem 'bootstrap-sass'
+
 
 
 group :doc do
@@ -92,8 +91,6 @@ end
 
 
 group :production, :staging do
-
-
   # Use unicorn as the app server
   gem 'unicorn'
 end
