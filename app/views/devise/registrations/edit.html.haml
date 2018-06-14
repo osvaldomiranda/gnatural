@@ -1,0 +1,27 @@
+%br
+%br
+.row
+  .col-md-12.text-center.logo-margin
+    = image_tag("logo-web-grupo-natural.png")
+    %br
+    %br
+  .col-md-2  
+  .col-md-8
+    .login-panel.panel.panel-default
+      .panel-heading
+        %h3.panel-title Cambiar Contraseña
+      .panel-body
+        = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+          = f.error_notification
+          .form-inputs
+            = f.input :password, autocomplete: "off", required: true, label: 'Nueva Password :'
+            = f.input :password_confirmation, required: true,         label: 'Repetir Password :'
+            = f.input :current_password,  required: true, label: 'Actual Password :'
+          %br
+          %br  
+          .form-actions
+            = f.button :submit, "Cambiar" , :class => "btn btn-lg btn-primary btn-block"
+          %br
+          %br  
+
+

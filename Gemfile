@@ -66,6 +66,10 @@ gem 'pg', '~>0.17.1'
 # for autentication
 gem 'devise'
 
+#For botstrap
+gem 'bootstrap-sass'
+
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
