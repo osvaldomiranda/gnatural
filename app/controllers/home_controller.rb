@@ -10,6 +10,6 @@ class HomeController < ApplicationController
 
     @chart_data = @chart_data.reduce({}, :merge)
 
-    @chart_data = User.group(:email).count 
+
   end
 end
