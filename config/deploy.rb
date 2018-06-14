@@ -23,8 +23,8 @@ set :stages, %w(production staging)
 set :default_stage, "production"
 
 # Application info
-set :user, "deployer"
-set :application, "hikerdata"
+set :user, "natural"
+set :application, "gnatural"
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :use_sudo, false
 set :rails_env, 'stagind'
