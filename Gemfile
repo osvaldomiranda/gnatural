@@ -70,6 +70,11 @@ gem 'devise'
 gem "chartkick"
 gem 'groupdate'
 
+#token para un modelo, en rails 5 no es necesaria la gema
+gem 'has_secure_token'
+
+
+
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
