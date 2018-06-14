@@ -66,7 +66,9 @@ gem 'pg', '~>0.17.1'
 # for autentication
 gem 'devise'
 
-
+# for charts
+gem "chartkick"
+gem 'groupdate'
 
 
 group :doc do
