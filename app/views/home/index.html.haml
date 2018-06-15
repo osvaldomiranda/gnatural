@@ -43,7 +43,12 @@
         .row
           .col-md-12.text-center
             = line_chart @vta_diaria_item
-
+        %br
+        %br
+        %h3 Origen de Venta Total, Ultimos 12 Meses    
+        .row
+          .col-md-12.text-center
+            = line_chart @vta_origen_anual
 
         %br
         %br
@@ -66,4 +71,7 @@
                     - @array_vta_anual.each do |venta|
                       %tr
                         %td= venta["date"]  
-                        %td= venta["sum"]       
+                        %td= venta["sum"]   
+
+
+
