@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180614014338) do
+ActiveRecord::Schema.define(version: 20180615161103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,16 @@ ActiveRecord::Schema.define(version: 20180614014338) do
     t.string  "anexo",          limit: 20
     t.string  "plan",           limit: 80
   end
+
+  create_table "owner_centers", force: true do |t|
+    t.integer  "user_id"
+    t.string   "rut_centro"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name_center"
+  end
+
+  add_index "owner_centers", ["user_id"], name: "index_owner_centers_on_user_id", using: :btree
 
   create_table "pos_order", id: false, force: true do |t|
     t.integer   "id_centro",                                 null: false

@@ -4,15 +4,66 @@
   .col-md-12
     .panel.panel-default
       .panel-heading
-        %h3.panel-title Prueba de Grafico
+        %h3.panel-title Informes mensuales
       .panel-body
 
-        %h3 Grafico
-   
+        %h1= "CENTRO: #{@nombre_centro}"
+        %p= "Rut: #{@rut_centro}"
+        %p= "Usuario: #{current_user.email}"
+        %br
+        %br
+        %h3 Venta Producto Total Mes en Curso    
         .row
           .col-md-12.text-center
-            = pie_chart @chart_data
+            = pie_chart @vta_producto_mes
+
+        %h3 Venta Producto Total Diaria Mes en Curso    
+        .row
+          .col-md-12.text-center
+            = line_chart @vta_diaria_total  
 
         .row
+          .col-md-2
+          .col-md-8.text-center
+            .panel.panel-default
+              .panel-body
+                %table.table.table-striped
+                  %thead
+                    %tr
+                      %th Fecha
+                      %th Total Venta
+                  %tbody
+                    - @array_vta_diaria_total.each do |venta|
+                      %tr
+                        %td= venta["date"]  
+                        %td= venta["sum"]           
+        %br
+        %br
+        %h3 Venta Diaria Producto    
+        .row
           .col-md-12.text-center
-            = column_chart @chart_data
+            = line_chart @vta_diaria_item
+
+
+        %br
+        %br
+        %h3 Venta Total Ultimos 12 Meses    
+        .row
+          .col-md-12.text-center
+            = line_chart @vta_anual
+
+        .row
+          .col-md-2
+          .col-md-8.text-center
+            .panel.panel-default
+              .panel-body
+                %table.table.table-striped
+                  %thead
+                    %tr
+                      %th Fecha
+                      %th Total Venta
+                  %tbody
+                    - @array_vta_anual.each do |venta|
+                      %tr
+                        %td= venta["date"]  
+                        %td= venta["sum"]       
