@@ -52,6 +52,6 @@ class HomeController < ApplicationController
     conn1 = {:adapter=>"postgresql", :encoding=>"utf8", :database=>"gnatural_production",:host =>"127.0.0.1" , :user=> "gnatural", :password => "godo2018" }
     sql = "select * from users"
 
-    ActiveRecord::Base.establish_connection(conn2).connection.execute(sql)
+    ActiveRecord::Base.establish_connection(conn1).connection.execute(sql)
   end
 end
