@@ -48,5 +48,10 @@ class HomeController < ApplicationController
     @array_vta_origen_anual = ActiveRecord::Base.establish_connection(conn2).connection.execute(vta_origen_anual).to_a 
     @vta_origen_anual = @array_vta_origen_anual.map{|a| {[a["vta_origen"],a["date"]]=>a["sum"]}}
     @vta_origen_anual = @vta_origen_anual.reduce({}, :merge)
+
+    conn1 = {:adapter=>"postgresql", :encoding=>"utf8", :database=>"gnatural_production",:host =>"127.0.0.1" , :user=> "gnatural", :password => "godo2018" }
+    sql = "select * from users"
+
+    ActiveRecord::Base.establish_connection(conn2).connection.execute(sql)
   end
 end
