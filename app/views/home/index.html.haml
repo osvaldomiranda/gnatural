@@ -7,17 +7,38 @@
         %h3.panel-title Informes mensuales
       .panel-body
 
-        %h1= "CENTRO: #{@nombre_centro}"
-        %p= "Rut: #{@rut_centro}"
-        %p= "Usuario: #{current_user.email}"
+        .row
+          %br  
+          .col-md-4.text-center
+            .form-inline
+              = label_tag :filter_center, "CENTRO"
+              = select_tag :filter_center, options_for_select(OwnerCenter.for_select(current_user.id), @nombre_centro), prompt: @nombre_centro,class: "form-control" 
+          .col-md-8.text-center
+            %h4= "Usuario: #{current_user.email}"
+            %h4
+              Centros
+              %span.badge= current_user.owner_centers.count
+        
+
+        .row    
+          %hr      
+          %br
+          .col-md-4.text-center
+            %h1= "#{@nombre_centro}"
+            %p= "Rut Centro: #{@rut_centro}"
+          .col-md-8.text-center
+            %h4= "Venta Acumulada Mes en Curso"
+            %h2= number_to_currency(@vta_total_mes, separator: ",", delimiter: ".", precision: 0) 
+
+        %hr    
         %br
         %br
-        %h3 Venta Producto Total Mes en Curso    
+        %h3 Venta Producto Total Mes en Curso  
         .row
           .col-md-12.text-center
             = pie_chart @vta_producto_mes
 
-        %h3 Venta Producto Total Diaria Mes en Curso    
+        %h3 Venta Total Diaria Mes en Curso    
         .row
           .col-md-12.text-center
             = line_chart @vta_diaria_total  
@@ -36,13 +57,19 @@
                     - @array_vta_diaria_total.each do |venta|
                       %tr
                         %td= venta["date"]  
-                        %td= venta["sum"]           
+                        %td= number_to_currency(venta["sum"], separator: ",", delimiter: ".", precision: 0)           
         %br
         %br
-        %h3 Venta Diaria Producto    
+        %h3 Venta Producto Diaria Mes en Curso     
         .row
           .col-md-12.text-center
             = line_chart @vta_diaria_item
+        %br
+        %br
+        %h3 Venta Producto Comparativa, Ultimos 12 Meses     
+        .row
+          .col-md-12.text-center
+            = line_chart @vta_anual_item 
         %br
         %br
         %h3 Origen de Venta Total, Ultimos 12 Meses    
@@ -71,7 +98,7 @@
                     - @array_vta_anual.each do |venta|
                       %tr
                         %td= venta["date"]  
-                        %td= venta["sum"]   
+                        %td= number_to_currency(venta["sum"], separator: ",", delimiter: ".", precision: 0)    
 
 
 
