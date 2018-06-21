@@ -49,15 +49,15 @@ class HomeController < ApplicationController
 
     vta_mes_anual = "SELECT to_char(date_trunc('day', create_date_order), 'DD') AS date, SUM(SUM(price_subtotal_incl)) OVER (ORDER BY to_char(date_trunc('day', create_date_order), 'DD') ASC) AS sum_of_no FROM tablon2_anual WHERE to_char(create_date_order, 'YYYY-MM') = '#{(Date.today).strftime("%Y-%m")}' AND rut_centro = '#{@rut_centro}'  GROUP BY date ORDER BY date "   
     vta_mes_curso = ActiveRecord::Base.connection.execute(vta_mes_anual).to_a 
-    vta_mes_curso = vta_mes_curso.map{|a| {["#{(Date.today-1.month).strftime("%Y-%m")}",a["date"]]=>a["sum_of_no"]}}
+    vta_mes_curso = vta_mes_curso.map{|a| {["#{(Date.today).strftime("%Y-%m")}",a["date"]]=>a["sum_of_no"]}}
     vta_mes_curso = vta_mes_curso.reduce({}, :merge)
     if vta_mes_curso.count > 0
       last_value = vta_mes_curso.first[1]
-      (1..31).each do |dia|
-        if vta_mes_curso.find.select{|key, hash| key == ["#{(Date.today-1.month).strftime("%Y-%m")}",format('%02d', dia)] }.present?
-          last_value = vta_mes_curso.find.select{|key, hash| key == ["#{(Date.today-1.month).strftime("%Y-%m")}",format('%02d', dia)] }[0][1]
+      (1..Date.today.day).each do |dia|
+        if vta_mes_curso.find.select{|key, hash| key == ["#{(Date.today).strftime("%Y-%m")}",format('%02d', dia)] }.present?
+          last_value = vta_mes_curso.find.select{|key, hash| key == ["#{(Date.today).strftime("%Y-%m")}",format('%02d', dia)] }[0][1]
         else  
-          vta_mes_curso[["#{(Date.today-1.month).strftime("%Y-%m")}",format('%02d', dia)]]=last_value
+          vta_mes_curso[["#{(Date.today).strftime("%Y-%m")}",format('%02d', dia)]]=last_value
         end
       end
       vta_mes_curso=vta_mes_curso.sort.to_h
