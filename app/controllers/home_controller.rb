@@ -263,10 +263,11 @@ class HomeController < ApplicationController
 
     #**************************
 
-    vta_origen_anual2 = " SELECT   login AS vta_origen, to_char(date_trunc('month', create_date_order), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl) FROM tablon2_anual WHERE login<>'cupones' AND login<>'cupon' AND rut_centro='#{@rut_centro}' AND create_date_order > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year' GROUP BY vta_origen, date"
+    vta_origen_anual2 = " SELECT   login AS vta_origen, to_char(date_trunc('month', create_date_order), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl) FROM tablon2_anual WHERE login<>'cupones' AND login<>'cupon' AND rut_centro='#{@rut_centro}' AND create_date_order > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year' GROUP BY vta_origen, date ORDER BY date, vta_origen"
     @array_vta_origen_anual2 = ActiveRecord::Base.connection.execute(vta_origen_anual2).to_a 
     @vta_origen_anual2 = @array_vta_origen_anual2.map{|a| {[a["vta_origen"],a["date"]]=>a["sum"]}}
     @vta_origen_anual2 = @vta_origen_anual2.reduce({}, :merge)
+
 
   end
 end
