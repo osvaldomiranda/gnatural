@@ -256,7 +256,7 @@ class HomeController < ApplicationController
       vta_mes_dic=vta_mes_dic.sort.to_h
     end  
 
-    @vta_mes_anual = vta_mes_enero.merge(vta_mes_febrero).merge(vta_mes_marzo).merge(vta_mes_abril).merge(vta_mes_mayo).merge(vta_mes_junio).merge(vta_mes_julio).merge(vta_mes_agosto).merge(vta_mes_sept).merge(vta_mes_oct).merge(vta_mes_nov).merge(vta_mes_dic).merge(vta_mes_curso)
+    @vta_mes_anual = vta_mes_curso.merge(vta_mes_enero).merge(vta_mes_febrero).merge(vta_mes_marzo).merge(vta_mes_abril).merge(vta_mes_mayo).merge(vta_mes_junio).merge(vta_mes_julio).merge(vta_mes_agosto).merge(vta_mes_sept).merge(vta_mes_oct).merge(vta_mes_nov).merge(vta_mes_dic)
     @vta_mes_comp = vta_mes_curso.merge(vta_mes_dic)
 
 
