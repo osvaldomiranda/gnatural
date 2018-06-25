@@ -282,10 +282,14 @@ class HomeController < ApplicationController
     @array_vta_origen_anual2 = ActiveRecord::Base.connection.execute(vta_origen_anual2).to_a 
     @vta_origen_anual2 = @array_vta_origen_anual2.map{|a| {[a["vta_origen"],a["date"]]=>a["sum"]}}
 
-    if @rut_centro == '76657776-8' 
+    if (@rut_centro == '76657776-8') || (@rut_centro == '76.667.168-3') 
       f = @vta_origen_anual2.first
       @vta_origen_anual2.delete(f)
       @vta_origen_anual2 << f  
+
+      f2 = @vta_origen_anual2.first
+      @vta_origen_anual2.delete(f2)
+      @vta_origen_anual2 << f2  
     end
 
     @vta_origen_anual2 = @vta_origen_anual2.reduce({}, :merge)
