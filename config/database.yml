@@ -5,11 +5,12 @@
 #   gem 'sqlite3'
 development:
   adapter: postgresql
-  database: zdm_development
-  host: localhost
+  database: ZDM
+  host: 186.10.118.130
+  port: 7001
   encoding: utf8
-  username: dtebridge  
-  password: lubba10580
+  username: marcelo  
+  password: godo2018
   pool: 5
   timeout: 5000
 
@@ -27,3 +28,6 @@ production:
   database: db/production.sqlite3
   pool: 5
   timeout: 5000
+
+
+# port ngnx 8081
