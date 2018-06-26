@@ -1,5 +1,6 @@
 = javascript_include_tag "//www.google.com/jsapi", "chartkick" 
 
+
 .container{:role => "main"}
   .col-md-12
     .panel.panel-default
@@ -36,12 +37,12 @@
         %h3 Venta Producto Total Mes en Curso  
         .row
           .col-md-12.text-center
-            = pie_chart @vta_producto_mes
+            = pie_chart @vta_producto_mes, download: true
 
         %h3 Venta Total Diaria Mes en Curso    
         .row
           .col-md-12.text-center
-            = line_chart @vta_diaria_total  
+            = line_chart @vta_diaria_total, download: true 
 
         .row
           .col-md-2
@@ -63,19 +64,19 @@
         %h3 Venta Producto Diaria Mes en Curso     
         .row
           .col-md-12.text-center
-            = line_chart @vta_diaria_item
+            = line_chart @vta_diaria_item, download: true 
         %br
         %br
         %h3 Venta Producto Comparativa, Ultimos 12 Meses     
         .row
           .col-md-12.text-center
-            = line_chart @vta_anual_item 
+            = line_chart @vta_anual_item, download: true
         %br
         %br
         %h3 Origen de Venta Total, Ultimos 12 Meses    
         .row
           .col-md-12.text-center
-            = line_chart @vta_origen_anual
+            = line_chart @vta_origen_anual, download: true
 
 
         %br
@@ -83,25 +84,26 @@
         %h3 Venta mes, acumulativo diario, Ultimos 12 Meses    
         .row
           .col-md-12.text-center
-            = line_chart @vta_mes_anual, points: false, height: "700px"
+            = line_chart @vta_mes_anual, points: false, height: "700px", download: true
         %br
         %br
         %h3 Venta mes, acumulativo diario, mes en curso - mismo mes año pasado    
         .row
           .col-md-12.text-center
-            = line_chart @vta_mes_comp, points: false
+            = line_chart @vta_mes_comp, points: false, download: true
         %br
         %br
         %h3 Venta Total Ultimos 12 Meses    
         .row
           .col-md-12.text-center
-            = column_chart @vta_origen_anual2
+            = column_chart @vta_origen_anual2, download: true, adapter: "google"  
+
         %br
         %br
         %h3 Venta Total Ultimos 12 Meses    
         .row
           .col-md-12.text-center
-            = line_chart @vta_anual
+            = line_chart @vta_anual, download: true
 
         .row
           .col-md-2

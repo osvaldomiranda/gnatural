@@ -6,8 +6,7 @@
 development:
   adapter: postgresql
   database: ZDM
-  host: 186.10.118.130
-  port: 7001
+  host: 192.168.1.130
   encoding: utf8
   username: marcelo  
   password: godo2018
