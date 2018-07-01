@@ -35,9 +35,19 @@
           <ul class="dropdown-menu">
             <li>
               <%= link_to home_index_path  do %>
-                <span class="iconos"><i class="fa fa-user fa-fw"></i></span>Inicio
+                <span class="iconos"><i class="fa fa-user fa-fw"></i></span>Diario
               <% end %>
-            </li>            
+            </li>
+            <li>
+              <%= link_to home_index_path  do %>
+                <span class="iconos"><i class="fa fa-user fa-fw"></i></span>Mensual
+              <% end %>
+            </li>  
+            <li>
+              <%= link_to home_index_path  do %>
+                <span class="iconos"><i class="fa fa-user fa-fw"></i></span>Anual
+              <% end %>
+            </li>              
           </ul>
         </li>
     
@@ -72,6 +82,7 @@
 
   </div><!-- /.container-fluid -->
 </nav>
+
 
 <% end %>
 </br>

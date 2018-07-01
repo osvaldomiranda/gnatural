@@ -3,7 +3,7 @@ class OwnerCenter < ActiveRecord::Base
 
 
   def self.for_select(user_id)
-    OwnerCenter.where(user_id: user_id).map{|t| [t.name_center, t.rut_centro]}
+    OwnerCenter.where(user_id: user_id).order(:name_center).map{|t| [t.name_center, t.id_centro]}
   end 
 
 end
