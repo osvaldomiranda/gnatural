@@ -78,6 +78,12 @@
           .col-md-12.text-center
             = line_chart @vta_origen_anual, download: true
 
+        %br
+        %br
+        %h3 Ticket Promedio Mensual, Ultimos 12 Meses    
+        .row
+          .col-md-12.text-center
+            = line_chart @ticket_prom_anual, download: true
 
         %br
         %br
@@ -98,6 +104,15 @@
           .col-md-12.text-center
             = column_chart @vta_origen_anual2, download: true, adapter: "google"  
 
+        %br
+        %br
+        %h3 Cantidad de Boletas Ultimos 12 Meses    
+        .row
+          .col-md-12.text-center
+            = line_chart @boletas_anual, download: true
+
+        %br
+        %br
         %br
         %br
         %h3 Venta Total Ultimos 12 Meses    
