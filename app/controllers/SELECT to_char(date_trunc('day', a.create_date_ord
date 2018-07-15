@@ -1,2 +1,0 @@
-vta_mes_anual = "SELECT to_char(date_trunc('month', create_date_order), 'YYYY-MM') AS year, to_char(date_trunc('day', create_date_order), 'DD') AS date, SUM(SUM(price_subtotal_incl)) OVER (ORDER BY to_char(date_trunc('day', create_date_order), 'DD') ASC) AS sum_of_no FROM tablon2_anual WHERE to_char(create_date_order, 'YYYY-MM') = '2018-01' AND rut_centro = '76657776-8'  GROUP BY year,date ORDER BY date "   
-    
