@@ -17,6 +17,10 @@ class HomeController < ApplicationController
       @nombre_centro = owner_center.name_center 
     end  
 
+    sql = "SELECT * FROM hora_act"
+    array =  ActiveRecord::Base.connection.execute(sql).to_a
+    @hora_act = DateTime.parse(array.last["hora"])
+
 
     vta_total_mes = "SELECT id_centro, sum(price_subtotal_incl) FROM tablon_mes WHERE id_centro=#{@id_centro} GROUP BY id_centro"
     array = ActiveRecord::Base.connection.execute(vta_total_mes).to_a
@@ -298,9 +302,9 @@ class HomeController < ApplicationController
 
     #*********** ticket promedio ***************
 
-    ticket_prom_anual = " SELECT   CASE WHEN login='cupon' THEN 'Cupones' WHEN login='cupones'  THEN 'Cupones' ELSE 'Kines' END AS vta_origen, to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl), count(*) FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year' AND (login='cupon' OR login='cupones' ) GROUP BY vta_origen, date"
+    ticket_prom_anual = " SELECT   to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl), count(*) FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year'  GROUP BY date"
     @array_ticket_prom_anual = ActiveRecord::Base.connection.execute(ticket_prom_anual).to_a 
-    @ticket_prom_anual = @array_ticket_prom_anual.map{|a| {[a["vta_origen"],a["date"]]=>(a["sum"].to_f/a["count"].to_f)}}
+    @ticket_prom_anual = @array_ticket_prom_anual.map{|a| {["Todos",a["date"]]=>(a["sum"].to_f/a["count"].to_f)}}
     @ticket_prom_anual = @ticket_prom_anual.reduce({}, :merge)
 
     #**************************

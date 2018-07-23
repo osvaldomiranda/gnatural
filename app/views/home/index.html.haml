@@ -30,6 +30,8 @@
           .col-md-8.text-center
             %h4= "Venta Acumulada Mes en Curso"
             %h2= number_to_currency(@vta_total_mes, separator: ",", delimiter: ".", precision: 0) 
+            %p= @hora_act.strftime("Actualizado al %d/%m/%Y")
+            %p= @hora_act.strftime("a las %I:%M%p")  
 
         %hr    
         %br

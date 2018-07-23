@@ -13,6 +13,7 @@ CapistranoDeploy::Application.routes.draw do
       resources :owner_centers do
         collection do
           get :actualize_center
+          get :create_new_owner
         end
       end
     end
