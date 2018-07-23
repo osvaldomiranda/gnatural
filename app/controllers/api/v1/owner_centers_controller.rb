@@ -48,13 +48,13 @@ class Api::V1::OwnerCentersController < ApplicationController
     array.each do |owner|
       user = User.where(email: owner["email"]).first
       unless user.present?
-        u = User.new
-        u.email = owner["email"]
-        u.password = 'gnatural'
-        u.save
+        user = User.new
+        user.email = owner["email"]
+        user.password = 'gnatural'
+        user.save
       end
 
-      owner_center = OwnerCenter.where(user_id: user.id, center_id: owner["id_centro"]).first
+      owner_center = OwnerCenter.where(user_id: user.id, id_centro: owner["id_centro"]).first
       unless owner_center.present?
         sql = "SELECT * FROM centros WHERE id_centro = #{owner["id_centro"]}"
         array = ActiveRecord::Base.connection.execute(sql).to_a
@@ -71,6 +71,6 @@ class Api::V1::OwnerCentersController < ApplicationController
       end
 
     end
-
+    render :json=> {status: "OK"} , :status => :ok
   end
 end  
