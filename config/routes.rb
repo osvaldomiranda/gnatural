@@ -5,8 +5,8 @@ CapistranoDeploy::Application.routes.draw do
   root to: "home#index"
   get "home/index"
 
-  match "/404", :to => "errors#not_found", :via => :all
-  match "/500", :to => "errors#internal_error", :via => :all
+  match 'api/v1/sessions/login', to: 'api/v1/sessions#options', as: :sessions_login_options, via: :options
+  match 'api/v1/sessions/logout', to: 'api/v1/sessions#options', as: :sessions_logout_options, via: :options
 
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -14,6 +14,12 @@ CapistranoDeploy::Application.routes.draw do
         collection do
           get :actualize_center
           get :create_new_owner
+        end
+      end
+      resources :sessions do
+        collection do
+          post :login
+          post :logout
         end
       end
     end

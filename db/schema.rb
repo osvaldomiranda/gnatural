@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180630124240) do
+ActiveRecord::Schema.define(version: 20180724153145) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,17 @@ ActiveRecord::Schema.define(version: 20180630124240) do
     t.string  "telefonos",      limit: 120
     t.string  "anexo",          limit: 20
     t.string  "plan",           limit: 80
+  end
+
+  create_table "centros_prop", id: false, force: true do |t|
+    t.integer "id_centro",      limit: 8,  null: false
+    t.integer "id_propietario", limit: 8,  null: false
+    t.string  "email",          limit: 80
+    t.string  "status",         limit: 5
+  end
+
+  create_table "hora_act", id: false, force: true do |t|
+    t.string "hora", limit: 50, null: false
   end
 
   create_table "owner_centers", force: true do |t|
@@ -834,6 +845,7 @@ ActiveRecord::Schema.define(version: 20180630124240) do
     t.datetime "updated_at",                          null: false
     t.string   "rut"
     t.string   "name"
+    t.string   "access_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
