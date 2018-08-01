@@ -1,0 +1,8 @@
+
+= simple_form_for(@comment) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :center_id, :as => :hidden, :input_html => { :value => @center_id }
+    = f.input :coment
+  .form-actions
+    = f.button :submit, "Guardar", :class => "btn btn-warning"

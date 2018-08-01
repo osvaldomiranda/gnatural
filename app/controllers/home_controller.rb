@@ -17,6 +17,8 @@ class HomeController < ApplicationController
       @nombre_centro = owner_center.name_center 
     end  
 
+    @comment = Comment.where(center_id: @id_centro).last
+
     sql = "SELECT * FROM hora_act"
     array =  ActiveRecord::Base.connection.execute(sql).to_a
     @hora_act = DateTime.parse(array.last["hora"])

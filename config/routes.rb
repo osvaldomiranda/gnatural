@@ -1,4 +1,6 @@
 CapistranoDeploy::Application.routes.draw do
+  resources :comments
+
   resources :owner_centers
 
   devise_for :users
@@ -20,6 +22,12 @@ CapistranoDeploy::Application.routes.draw do
         collection do
           post :login
           post :logout
+        end
+      end
+      resources :home do
+        collection do
+          get :index 
+          get :centers
         end
       end
     end

@@ -1,0 +1,23 @@
+%br
+%br
+.container{:role => "main"}
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+      .panel-body
+        %h2 Comentarios
+        .row
+          .col-md-12 
+          
+            %p#notice= notice
+
+            %p
+              %b Center:
+              = @comment.center_id
+            %p
+              %b Coment:
+              = @comment.coment
+
+            = link_to 'Editar', edit_comment_path(@comment, center_id: @comment.center_id),:class => "btn btn-warning"
+            
+            = link_to 'Atras', comments_path(center_id: @comment.center_id),:class => "btn btn-warning"
