@@ -296,7 +296,7 @@ class HomeController < ApplicationController
 
     #**************************
 
-    vta_origen_anual = " SELECT   CASE WHEN login='cupon' THEN 'Cupones' WHEN login='cupones'  THEN 'Cupones' ELSE 'Kines' END AS vta_origen, to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl) FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year'  GROUP BY vta_origen, date"
+    vta_origen_anual = " SELECT   CASE WHEN login='Cupones' THEN 'Cupones' WHEN login='cupon' THEN 'Cupones' WHEN login='cupones'  THEN 'Cupones' ELSE 'Kines' END AS vta_origen, to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl) FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year'  GROUP BY vta_origen, date"
     @array_vta_origen_anual = ActiveRecord::Base.connection.execute(vta_origen_anual).to_a 
     @vta_origen_anual = @array_vta_origen_anual.map{|a| {[a["vta_origen"],a["date"]]=>a["sum"]}}
     @vta_origen_anual = @vta_origen_anual.reduce({}, :merge)
