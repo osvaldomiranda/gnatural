@@ -55,7 +55,7 @@ class HomeController < ApplicationController
 
     #***************************
 
-    vta_anual_item = "SELECT name_template, to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl) FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year'  GROUP BY name_template,date ORDER BY name_template "
+    vta_anual_item = "SELECT name_template, to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl) FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '13 months'  GROUP BY name_template,date ORDER BY name_template "
     @vta_anual_item = ActiveRecord::Base.connection.execute(vta_anual_item).to_a 
     @vta_anual_item = @vta_anual_item.map{|a| {[a["name_template"],a["date"]]=>a["sum"]}}
     @vta_anual_item = @vta_anual_item.reduce({}, :merge)
@@ -272,7 +272,23 @@ class HomeController < ApplicationController
       vta_mes_dic=vta_mes_dic.sort.to_h
     end  
 
-    @vta_mes_anual = vta_mes_curso.merge(vta_mes_enero).merge(vta_mes_febrero).merge(vta_mes_marzo).merge(vta_mes_abril).merge(vta_mes_mayo).merge(vta_mes_junio).merge(vta_mes_julio).merge(vta_mes_agosto).merge(vta_mes_sept).merge(vta_mes_oct).merge(vta_mes_nov).merge(vta_mes_dic)
+    vta_mes_anual = "SELECT to_char(date_trunc('day', CAST(create_date_order AS DATE)), 'DD') AS date, SUM(SUM(price_subtotal_incl)) OVER (ORDER BY to_char(date_trunc('day', CAST(create_date_order AS DATE)), 'DD') ASC) AS sum_of_no FROM tablon2_anual WHERE to_char(CAST(create_date_order AS DATE), 'YYYY-MM') = '#{(Date.today-13.month).strftime("%Y-%m")}' AND id_centro = #{@id_centro}  GROUP BY date ORDER BY date "   
+    vta_mes_dic2 = ActiveRecord::Base.connection.execute(vta_mes_anual).to_a 
+    vta_mes_dic2 = vta_mes_dic2.map{|a| {["#{(Date.today-13.month).strftime("%Y-%m")}",a["date"]]=>a["sum_of_no"]}}
+    vta_mes_dic2 = vta_mes_dic2.reduce({}, :merge)
+    if vta_mes_dic2.count > 0
+      last_value = vta_mes_dic2.first[1]
+      (1..31).each do |dia|
+        if vta_mes_dic2.find.select{|key, hash| key == ["#{(Date.today-12.month).strftime("%Y-%m")}",format('%02d', dia)] }.present?
+          last_value = vta_mes_dic2.find.select{|key, hash| key == ["#{(Date.today-13.month).strftime("%Y-%m")}",format('%02d', dia)] }[0][1]
+        else  
+          vta_mes_dic2[["#{(Date.today-13.month).strftime("%Y-%m")}",format('%02d', dia)]]=last_value
+        end
+      end
+      vta_mes_dic2=vta_mes_dic2.sort.to_h
+    end  
+
+    @vta_mes_anual = vta_mes_curso.merge(vta_mes_enero).merge(vta_mes_febrero).merge(vta_mes_marzo).merge(vta_mes_abril).merge(vta_mes_mayo).merge(vta_mes_junio).merge(vta_mes_julio).merge(vta_mes_agosto).merge(vta_mes_sept).merge(vta_mes_oct).merge(vta_mes_nov).merge(vta_mes_dic).merge(vta_mes_dic2)
     @vta_mes_comp = vta_mes_curso.merge(vta_mes_dic)
 
 
@@ -281,7 +297,7 @@ class HomeController < ApplicationController
     #***************************
 
 
-    boletas_anual = "SELECT  to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , count(*) AS sum FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year' GROUP BY date ORDER BY date"
+    boletas_anual = "SELECT  to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , count(*) AS sum FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '13 months' GROUP BY date ORDER BY date"
     @array_boletas_anual = ActiveRecord::Base.connection.execute(boletas_anual).to_a 
     @boletas_anual = @array_boletas_anual.map{|a| {a["date"]=>a["sum"]}}
     @boletas_anual = @boletas_anual.reduce({}, :merge)
@@ -289,14 +305,14 @@ class HomeController < ApplicationController
     #***************************
 
 
-    vta_anual = "SELECT  to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl) FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year' GROUP BY date ORDER BY date"
+    vta_anual = "SELECT  to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl) FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '13 months' GROUP BY date ORDER BY date"
     @array_vta_anual = ActiveRecord::Base.connection.execute(vta_anual).to_a 
     @vta_anual = @array_vta_anual.map{|a| {a["date"]=>a["sum"]}}
     @vta_anual = @vta_anual.reduce({}, :merge)
 
     #**************************
 
-    vta_origen_anual = " SELECT   CASE WHEN login='Cupones' THEN 'Cupones' WHEN login='cupon' THEN 'Cupones' WHEN login='cupones'  THEN 'Cupones' ELSE 'Kines' END AS vta_origen, to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl) FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year'  GROUP BY vta_origen, date"
+    vta_origen_anual = " SELECT   CASE WHEN login='Cupones' THEN 'Cupones' WHEN login='cupon' THEN 'Cupones' WHEN login='cupones'  THEN 'Cupones' ELSE 'Kines' END AS vta_origen, to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl) FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '13 months'  GROUP BY vta_origen, date"
     @array_vta_origen_anual = ActiveRecord::Base.connection.execute(vta_origen_anual).to_a 
     @vta_origen_anual = @array_vta_origen_anual.map{|a| {[a["vta_origen"],a["date"]]=>a["sum"]}}
     @vta_origen_anual = @vta_origen_anual.reduce({}, :merge)
@@ -304,14 +320,14 @@ class HomeController < ApplicationController
 
     #*********** ticket promedio ***************
 
-    ticket_prom_anual = " SELECT   to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl), count(*) FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year'  GROUP BY date"
+    ticket_prom_anual = " SELECT   to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM-DD') AS date , sum(price_subtotal_incl), count(*) FROM tablon2_anual WHERE id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '13 months'  GROUP BY date"
     @array_ticket_prom_anual = ActiveRecord::Base.connection.execute(ticket_prom_anual).to_a 
     @ticket_prom_anual = @array_ticket_prom_anual.map{|a| {["Todos",a["date"]]=>(a["sum"].to_f/a["count"].to_f)}}
     @ticket_prom_anual = @ticket_prom_anual.reduce({}, :merge)
 
     #**************************
 
-    vta_origen_anual2 = " SELECT upper(login) AS vta_origen, to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM') AS date , sum(price_subtotal_incl) FROM tablon2_anual WHERE login<>'cupones' AND login<>'cupon' AND id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year' GROUP BY vta_origen, date ORDER BY date, vta_origen"
+    vta_origen_anual2 = " SELECT upper(login) AS vta_origen, to_char(date_trunc('month', CAST(create_date_order AS DATE)), 'YYYY-MM') AS date , sum(price_subtotal_incl) FROM tablon2_anual WHERE login<>'cupones' AND login<>'cupon' AND id_centro=#{@id_centro} AND CAST(create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '1 months' GROUP BY vta_origen, date ORDER BY date, vta_origen"
     @array_vta_origen_anual2 = ActiveRecord::Base.connection.execute(vta_origen_anual2).to_a   
     @vta_origen_anual2 = @array_vta_origen_anual2.map{|a| {[a["vta_origen"],a["date"]]=>a["sum"]}}
 
