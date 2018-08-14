@@ -27,7 +27,8 @@
             %h1= "#{@nombre_centro}"
             %p= "Rut Centro: #{@rut_centro}"
 
-        %h3 Llamadas recibidas - duración    
+        %h3 Llamadas recibidas - duración  
+        %p *Duración de las llamadas se expresa en segundos  
         .row
           .col-md-12.text-center
             = line_chart @answered_calls_chart, download: true
