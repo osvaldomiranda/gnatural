@@ -1,0 +1,80 @@
+= javascript_include_tag "//www.google.com/jsapi", "chartkick" 
+
+.container{:role => "main"}
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title Informes mensuales
+      .panel-body
+
+        .row
+          %br  
+          .col-md-4.text-center
+            .form-inline
+              = label_tag :filter_center, "CENTRO"
+              = select_tag :filter_center, options_for_select(OwnerCenter.for_select(current_user.id), @nombre_centro), prompt: @nombre_centro,class: "form-control" 
+          .col-md-8.text-center
+            %h4= "Usuario: #{current_user.email}"
+            %h4
+              Centros
+              %span.badge= current_user.owner_centers.count
+        
+
+        .row    
+          %hr      
+          %br
+          .col-md-4.text-center
+            %h1= "#{@nombre_centro}"
+            %p= "Rut Centro: #{@rut_centro}"
+
+        %h3 Llamadas recibidas - duración    
+        .row
+          .col-md-12.text-center
+            = line_chart @answered_calls_chart, download: true
+
+        .row
+          .col-md-2
+          .col-md-8.text-center
+            .panel.panel-default
+              .panel-body
+                %table.table.table-striped
+                  %thead
+                    %tr
+                      %th Fecha Llamada
+                      %th Origen
+                      %th Destino
+                      %th Duracion
+                      %th Estado
+                  %tbody
+                    - @answered_calls.each do |call|
+                      %tr
+                        %td= call["fecha_llamada"]
+                        %td= call["origen_call"]
+                        %td= call["destino_call"]
+                        %td= call["duracion"]
+                        %td= call["status"]
+
+        %h3 Llamadas perdidas - cantidad   
+        .row
+          .col-md-12.text-center
+            = line_chart @unanswered_calls_chart,  download: true
+
+        .row
+          .col-md-2
+          .col-md-8.text-center
+            .panel.panel-default
+              .panel-body
+                %table.table.table-striped
+                  %thead
+                    %tr
+                      %th Fecha Llamada
+                      %th Origen
+                      %th Destino
+                      %th Estado
+                  %tbody
+                    - @unanswered_calls.each do |call|
+                      %tr
+                        %td= call["fecha_llamada"]
+                        %td= call["origen_call"]
+                        %td= call["destino_call"]
+                        %td= call["status"]

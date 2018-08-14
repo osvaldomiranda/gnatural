@@ -6,4 +6,5 @@ class OwnerCenter < ActiveRecord::Base
     OwnerCenter.where(user_id: user_id).order(:name_center).map{|t| [t.name_center, t.id_centro]}
   end 
 
+
 end

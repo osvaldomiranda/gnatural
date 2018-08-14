@@ -1,4 +1,5 @@
 CapistranoDeploy::Application.routes.draw do
+  get "telephony/index"
   resources :comments
 
   resources :owner_centers
