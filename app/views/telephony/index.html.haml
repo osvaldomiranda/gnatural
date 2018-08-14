@@ -23,9 +23,13 @@
         .row    
           %hr      
           %br
-          .col-md-4.text-center
+          .col-md-6.text-center
             %h1= "#{@nombre_centro}"
             %p= "Rut Centro: #{@rut_centro}"
+
+          .col-md-6.text-center
+            %h4= "Llamadas Contestadas: #{@answered_calls.count}"
+            %h4= "Llamadas Perdidas: #{@unanswered_calls.count}"
 
         %h3 Llamadas recibidas - duración  
         %p *Duración de las llamadas se expresa en segundos  
