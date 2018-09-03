@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180801020835) do
+ActiveRecord::Schema.define(version: 20180821183251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,14 @@ ActiveRecord::Schema.define(version: 20180801020835) do
   create_table "comments", force: true do |t|
     t.integer  "center_id"
     t.text     "coment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "events", force: true do |t|
+    t.string   "title"
+    t.date     "start"
+    t.date     "end"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -835,6 +843,29 @@ ActiveRecord::Schema.define(version: 20180801020835) do
     t.boolean  "display_employees_suggestions"
     t.string   "ean13_users",                   limit: 13
     t.integer  "pos_config"
+  end
+
+  create_table "tef_centro", id: false, force: true do |t|
+    t.integer "id_centro", limit: 8, null: false
+    t.integer "id_tef",    limit: 8, null: false
+  end
+
+  create_table "telefonia", id: false, force: true do |t|
+    t.integer  "id_centro",     limit: 8,  null: false
+    t.integer  "id_tef",        limit: 8,  null: false
+    t.datetime "fecha_llamada",            null: false
+    t.string   "origen_call",   limit: 30
+    t.string   "destino_call",  limit: 30
+    t.integer  "duracion",      limit: 8
+    t.string   "status",        limit: 30
+  end
+
+  create_table "telefonia_stg", id: false, force: true do |t|
+    t.datetime "fecha_llamada"
+    t.string   "origen_call",   limit: 30
+    t.string   "destino_call",  limit: 30
+    t.integer  "duracion",      limit: 8
+    t.string   "status",        limit: 30
   end
 
   create_table "users", force: true do |t|

@@ -70,6 +70,10 @@ gem 'devise'
 gem "chartkick"
 gem 'groupdate'
 
+# for calendar
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
+
 
 #token para un modelo, en rails 5 no es necesaria la gema
 gem 'has_secure_token'

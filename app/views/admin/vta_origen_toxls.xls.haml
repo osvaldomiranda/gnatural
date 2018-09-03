@@ -1,0 +1,24 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th idCentro
+      %th Centro
+      %th Usuario
+      %th fecha
+      %th OrderId
+      %th pos_reference
+      %th order_line_note
+      %th monto
+      
+
+  %tbody
+    - @array_vta_origen_xls.each do |vta|
+      %tr
+        %td= vta["id_centro"] 
+        %td= vta["nombre_centro"] 
+        %td= vta["vta_origen"]
+        %td= vta["date_order"] 
+        %td= vta["order_id"]
+        %td= vta["pos_reference"]
+        %td= vta["order_line_note"]
+        %td= vta["price_subtotal_incl"]
