@@ -4,20 +4,20 @@
       .panel-heading
         %h3.panel-title Informes Detalle
       .panel-body
+        - if current_user.id == 37 || current_user.id == 38 || current_user.id == 1 
+          .row
+            .col-md-6
+              %br  
+              %h3 Detalle Vtas por usuario
+          .row    
 
-        .row
-          .col-md-6
-            %br  
-            %h3 Detalle Vtas por usuario
-        .row    
-
-          .col-md-6
-            = label_tag :filter_mes, 'MES'
-            = select_tag :filter_mes, options_for_select(User.mes_options_for_select, @mes), prompt: @mes, class: "form-control" 
-        .row
-          %br    
-          .col-md-6    
-            = link_to 'Exportar Excel', admin_vta_origen_toxls_path(format: :xls, mes: @mes),class: 'btn btn-info'
+            .col-md-6
+              = label_tag :filter_mes, 'MES'
+              = select_tag :filter_mes, options_for_select(User.mes_options_for_select, @mes), prompt: @mes, class: "form-control" 
+          .row
+            %br    
+            .col-md-6    
+              = link_to 'Exportar Excel', admin_vta_origen_toxls_path(format: :xls, mes: @mes),class: 'btn btn-info'
 
 
 
