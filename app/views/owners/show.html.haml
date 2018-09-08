@@ -1,0 +1,32 @@
+%br
+%br
+.container{:role => "main"}
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+      .panel-body
+        %h2 Propietario
+        .row
+          .col-md-12 
+          
+            %p#notice= notice
+
+            %h3
+              Propietario:
+              = @owner.id_propietario
+              %br
+              = @owner.nombre_propietario
+              %br
+            %p  
+              = @owner.rut_propietario
+              %br
+              = @owner.dir_propietario 
+              %br
+              = @owner.email 
+
+              %br
+              %br
+              %br
+              = link_to 'Volver', owners_path,:class => "btn btn-warning"
+
+

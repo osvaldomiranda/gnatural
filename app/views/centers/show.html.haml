@@ -1,0 +1,43 @@
+%br
+%br
+.container{:role => "main"}
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+      .panel-body
+        %h2 Centro
+        .row
+          .col-md-12 
+          
+            %p#notice= notice
+
+            %h3
+              Centro:
+              = @center.id_centro
+              %br
+              = @center.nombre_centro
+              %br
+            %p  
+              = @center.dir_centro
+              %br
+              = @center.sector_centro 
+              %br
+              = @center.comuna_centro 
+              %br
+              = @center.rut_centro 
+              %br
+              = @center.web 
+              %br
+              = @center.email
+              %br
+              = @center.telefonos
+              %br
+              = @center.anexo 
+              %br
+              = @center.plan
+              %br
+              = @center.status
+              %br
+              %br
+              %br
+              = link_to 'Volver', centers_path,:class => "btn btn-warning"

@@ -1,0 +1,13 @@
+= simple_form_for(@owner) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :id_propietario 
+    = f.input :nombre_propietario
+    = f.input :rut_propietario
+    = f.input :dir_propietario 
+    = f.input :email
+
+  .form-actions
+    = f.button :submit, "Guardar", :class => "btn btn-warning"
+
+

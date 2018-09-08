@@ -1,0 +1,14 @@
+%br
+%br
+.container{:role => "main"}
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+      .panel-body
+        %h2 Centros
+        .row
+          .col-md-12 
+
+            = render 'form'
+
+            = link_to 'Atras', centers_path,:class => "btn btn-warning"

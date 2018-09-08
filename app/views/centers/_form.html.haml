@@ -1,0 +1,19 @@
+
+= simple_form_for(@center) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :nombre_centro 
+    = f.input :id_propietario, collection: Owner.for_select, :input_html => {:style=> 'width: 180px'}
+    = f.input :dir_centro
+    = f.input :sector_centro
+    = f.input :comuna_centro 
+    = f.input :rut_centro 
+    = f.input :web 
+    = f.input :email 
+    = f.input :telefonos 
+    = f.input :anexo 
+    = f.input :plan 
+    = f.input :status
+
+  .form-actions
+    = f.button :submit, "Guardar", :class => "btn btn-warning"

@@ -1,0 +1,14 @@
+%br
+%br
+.container{:role => "main"}
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+      .panel-body
+        %h2 Propietarios
+        .row
+          .col-md-12 
+
+            = render 'form'
+
+            = link_to 'Atras', owners_path,:class => "btn btn-warning"

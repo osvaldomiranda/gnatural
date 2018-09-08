@@ -1,23 +1,14 @@
 CapistranoDeploy::Application.routes.draw do
   get "admin/index"
   get "admin/vta_origen_toxls"
-  get "owner/index"
-  get "owner/create"
-  get "owner/new"
-  get "owner/edit"
-  get "owner/update"
-  get "center/index"
-  get "center/new"
-  post "center/create"
-  get "center/edit"
-  post "center/update"
-  post "center/chandge_status"
   resources :events
 
   get "telephony/index"
   resources :comments
 
   resources :owner_centers
+  resources :centers
+  resources :owners
 
   devise_for :users
   root to: "home#index"
@@ -40,6 +31,13 @@ CapistranoDeploy::Application.routes.draw do
           post :logout
         end
       end
+
+      resources :planyo do
+        collection do
+          get :agenda
+        end
+      end      
+
       resources :home do
         collection do
           get :index 
