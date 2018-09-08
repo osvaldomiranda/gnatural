@@ -75,7 +75,7 @@ gem 'fullcalendar-rails'
 gem 'momentjs-rails'
 
 # for api planyo
-gem 'rest-client'
+gem 'rest-client', '~> 1.7.2'
 
 
 #token para un modelo, en rails 5 no es necesaria la gema
