@@ -1,4 +1,5 @@
 CapistranoDeploy::Application.routes.draw do
+  get "planyo/index"
   get "admin/index"
   get "admin/vta_origen_toxls"
   resources :events

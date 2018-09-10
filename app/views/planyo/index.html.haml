@@ -1,0 +1,40 @@
+.container{:role => "main"}
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title Agenda Planyo
+      .panel-body
+        .row
+          %br  
+          .col-md-4.text-center
+            .form-inline
+              = label_tag :filter_mes, "Mes"
+              = select_tag :filter_mes, options_for_select(Event.mes_options_for_select, @mes), prompt: @mes,class: "form-control" 
+
+        %rb
+        %rb
+        %hr 
+        .row
+          .col-md-4
+            %h3= @mes
+                
+        .row
+          .col-md-12 
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th
+                  - (1..Event.days_in_month(@month, @year)).each do |dia|
+                    %th= Event.day_name(Date.parse("#{dia}/#{@month}/#{@year}"))  
+                %tr
+                  %th
+                  - (1..Event.days_in_month(@month, @year)).each do |dia|
+                    %td= dia                 
+              %tbody
+                %tr
+                  %td Anticelulitis Beauty Shape
+                  - (1..Event.days_in_month(@month, @year)).each do |dia|
+                    %td= image_tag("disponible.png")
+        .row
+          .col-md-12 
+            = image_tag("planyo_status.png")

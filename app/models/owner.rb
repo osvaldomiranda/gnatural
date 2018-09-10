@@ -1,6 +1,8 @@
 class Owner < ActiveRecord::Base
   self.table_name = "propietario"
 
+  validates :rut_propietario, presence: true, rutFormat: true
+
   def self.for_select
   	Owner.all.order(nombre_propietario: :asc).map {|t| ["#{t.nombre_propietario}", t.id_propietario]}
   end

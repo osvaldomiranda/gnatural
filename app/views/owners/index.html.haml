@@ -17,7 +17,7 @@
                   %th Email
                   %th
                   %th
-                  %th
+                  
 
               %tbody
                 - @owners.each do |owner|
@@ -28,7 +28,7 @@
                     %td= owner.email
                     %td= link_to 'Mostrar', owner_path(owner)
                     %td= link_to 'Editar', edit_owner_path(owner)
-                    %td= link_to 'Eliminar', owner_path(owner), :method => :delete, :data => { :confirm => 'Esta Seguro?' }
+                    / %td= link_to 'Eliminar', owner_path(owner), :method => :delete, :data => { :confirm => 'Esta Seguro?' }
 
             %br
 

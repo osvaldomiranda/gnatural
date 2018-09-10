@@ -8,9 +8,6 @@ class Api::V1::PlanyoController < ApplicationController
 
     headers['Access-Control-Allow-Origin'] = "*"
 
-puts "***************"
-puts params
-puts "***************"
 
     # Revisar parametros
     apiKey = params[:apikey] 

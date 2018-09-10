@@ -82,6 +82,10 @@ gem 'rest-client', '~> 1.7.2'
 gem 'has_secure_token'
 
 
+
+
+
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
