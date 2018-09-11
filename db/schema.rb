@@ -11,10 +11,74 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180821183251) do
+ActiveRecord::Schema.define(version: 20180911141221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "agenda", id: false, force: true do |t|
+    t.integer  "id_centro",                       null: false
+    t.string   "rol",                 limit: 30
+    t.integer  "reservation_id",      limit: 8
+    t.string   "status",              limit: 30
+    t.datetime "creation_time"
+    t.integer  "quantity"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string   "user_notes",          limit: 300
+    t.string   "custom_color",        limit: 30
+    t.string   "night_reservation",   limit: 30
+    t.string   "currency",            limit: 30
+    t.string   "first_name",          limit: 80
+    t.string   "last_name",           limit: 30
+    t.string   "login",               limit: 30
+    t.string   "user_id",             limit: 30
+    t.string   "email",               limit: 50
+    t.string   "mobile_number",       limit: 30
+    t.string   "mobile_country_code", limit: 5
+    t.string   "phone",               limit: 30
+    t.string   "phone_country_code",  limit: 30
+    t.string   "zip",                 limit: 30
+    t.string   "country",             limit: 30
+    t.string   "address",             limit: 30
+    t.string   "state",               limit: 30
+    t.string   "city",                limit: 30
+    t.string   "resource_id",         limit: 30
+    t.string   "name",                limit: 30
+  end
+
+  add_index "agenda", ["creation_time"], name: "index_agenda", unique: true, using: :btree
+
+  create_table "agenda_stg", id: false, force: true do |t|
+    t.integer  "reservation_id",      limit: 8
+    t.string   "status",              limit: 300
+    t.datetime "creation_time"
+    t.integer  "quantity"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string   "user_notes",          limit: 3000
+    t.string   "custom_color",        limit: 300
+    t.string   "night_reservation",   limit: 300
+    t.string   "currency",            limit: 300
+    t.string   "first_name",          limit: 80
+    t.string   "last_name",           limit: 300
+    t.string   "login",               limit: 300
+    t.string   "user_id",             limit: 300
+    t.string   "email",               limit: 50
+    t.string   "mobile_number",       limit: 300
+    t.string   "mobile_country_code", limit: 50
+    t.string   "phone",               limit: 300
+    t.string   "phone_country_code",  limit: 300
+    t.string   "zip",                 limit: 300
+    t.string   "country",             limit: 300
+    t.string   "address",             limit: 300
+    t.string   "state",               limit: 300
+    t.string   "city",                limit: 300
+    t.string   "resource_id",         limit: 300
+    t.string   "name",                limit: 300
+  end
+
+  add_index "agenda_stg", ["creation_time"], name: "index_agenda_stg", unique: true, using: :btree
 
   create_table "centros", id: false, force: true do |t|
     t.integer "id_centro",      limit: 8,   null: false
@@ -29,6 +93,14 @@ ActiveRecord::Schema.define(version: 20180821183251) do
     t.string  "telefonos",      limit: 120
     t.string  "anexo",          limit: 20
     t.string  "plan",           limit: 80
+    t.string  "status",         limit: 5
+  end
+
+  create_table "centros_planyo", id: false, force: true do |t|
+    t.integer "id_centro", limit: 8,   null: false
+    t.string  "usuario",   limit: 30
+    t.string  "clave",     limit: 20
+    t.string  "apikey",    limit: 120
   end
 
   create_table "centros_prop", id: false, force: true do |t|
@@ -67,6 +139,12 @@ ActiveRecord::Schema.define(version: 20180821183251) do
   end
 
   add_index "owner_centers", ["user_id"], name: "index_owner_centers_on_user_id", using: :btree
+
+  create_table "plans", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "pos_order", id: false, force: true do |t|
     t.integer  "id_centro",                   null: false
@@ -147,6 +225,7 @@ ActiveRecord::Schema.define(version: 20180821183251) do
     t.string  "nombre_propietario", limit: 120
     t.string  "rut_propietario",    limit: 15
     t.string  "dir_propietario",    limit: 120
+    t.string  "email",              limit: 80
   end
 
   create_table "res_partner", id: false, force: true do |t|

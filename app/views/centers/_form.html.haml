@@ -12,7 +12,7 @@
     = f.input :email 
     = f.input :telefonos 
     = f.input :anexo 
-    = f.input :plan 
+    = f.input :plan , collection: Plan.for_select, :input_html => {:style=> 'width: 180px'}
     = f.input :status, collection: Center.status_for_select, :input_html => {:style=> 'width: 180px'}
 
   .form-actions
