@@ -1,6 +1,8 @@
 CapistranoDeploy::Application.routes.draw do
 
 
+  resources :kinesiologists
+
   get "planyo/index"
   get "admin/index"
   get "admin/vta_origen_toxls"
