@@ -12,7 +12,7 @@
           .col-md-4.text-center
             .form-inline
               = label_tag :filter_center, "CENTRO"
-              = select_tag :filter_center, options_for_select(OwnerCenter.for_select(current_user.id), @nombre_centro), prompt: @nombre_centro,class: "form-control" 
+              = select_tag :filter_center, options_for_select(OwnerProp.for_select(current_user.id), @nombre_centro), prompt: @nombre_centro,class: "form-control" 
           .col-md-8.text-center
             %h4= "Usuario: #{current_user.email}"
             %h4

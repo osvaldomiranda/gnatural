@@ -27,6 +27,7 @@
                     %td= center.dir_centro
                     %td= center.sector_centro
                     %td= center.comuna_centro
+                    %td= link_to 'Propietarios', owners_centers_path(id: center.id_centro)
                     %td= link_to 'Mostrar', center_path(center)
                     %td= link_to 'Editar', edit_center_path(center)
                     / %td= link_to 'Eliminar', center_path(center), :method => :delete, :data => { :confirm => 'Esta Seguro?' }

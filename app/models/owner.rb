@@ -4,7 +4,7 @@ class Owner < ActiveRecord::Base
   validates :rut_propietario, presence: true, rutFormat: true
 
   def self.for_select
-  	Owner.all.order(nombre_propietario: :asc).map {|t| ["#{t.nombre_propietario}", t.id_propietario]}
+  	Owner.all.order(nombre_propietario: :asc).map {|t| [t.email, t.id_propietario]}
   end
 
   def email

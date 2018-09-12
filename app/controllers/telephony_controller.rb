@@ -3,15 +3,19 @@ class TelephonyController < ApplicationController
      @id_centro = params[:center] 
 
     if @id_centro.present?
-      center = OwnerCenter.where(id_centro: @id_centro).first
-      @nombre_centro = center.name_center
-      @rut_centro = center.rut_centro 
+      center = Center.where(id_centro: @id_centro).first
     else 
-      owner_center = current_user.owner_centers.order(:name_center).first
-      @id_centro = owner_center.id_centro 
-      @rut_centro = owner_center.rut_centro 
-      @nombre_centro = owner_center.name_center 
+      if current_user.role?('admin')
+        center = Center.order(:nombre_centro).first
+      else
+        owner_center = OwnerProp.where(email: current_user.email).first
+        center = Center.where(id_centro: owner_center.id_centro).order(:nombre_centro).first
+      end
     end 
+
+    @id_centro = center.id_centro 
+    @rut_centro = center.rut_centro 
+    @nombre_centro = center.nombre_centro 
 
     sql = "SELECT * FROM telefonia t, tef_centro c WHERE t.id_tef = c.id_tef AND c.id_centro = #{@id_centro} AND status= 'ANSWERED'"
     @answered_calls =  ActiveRecord::Base.connection.execute(sql).to_a

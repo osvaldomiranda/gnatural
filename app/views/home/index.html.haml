@@ -13,7 +13,7 @@
           .col-md-4.text-center
             .form-inline
               = label_tag :filter_center, "CENTRO"
-              = select_tag :filter_center, options_for_select(OwnerCenter.for_select(current_user.id), @nombre_centro), prompt: @nombre_centro,class: "form-control" 
+              = select_tag :filter_center, options_for_select(OwnerProp.for_select(current_user.id), @nombre_centro), prompt: @nombre_centro,class: "form-control" 
           .col-md-8.text-center
             %h4= "Usuario: #{current_user.email}"
             %h4
@@ -27,7 +27,7 @@
           .col-md-4.text-center
             %h1= "#{@nombre_centro}"
             %p= "Rut Centro: #{@rut_centro}"
-            - if current_user.id == 37 || current_user.id == 38 || current_user.id == 1 
+            - if current_user.role?('admin')
               = link_to "Comentarios", comments_path(center_id:  @id_centro), :class => "btn btn-warning"
           .col-md-8.text-center
             %h4= "Venta Acumulada Mes en Curso"

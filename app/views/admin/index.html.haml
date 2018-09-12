@@ -13,7 +13,7 @@
 
           .col-md-6
             = label_tag :filter_mes, 'MES'
-            = select_tag :filter_mes, options_for_select(User.mes_options_for_select, @mes), prompt: @mes, class: "form-control" 
+            = select_tag :filter_mes, options_for_select(Event.mes_options_for_select, @mes), prompt: @mes, class: "form-control" 
         .row
           %br    
           .col-md-6    

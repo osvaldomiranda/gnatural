@@ -1,0 +1,42 @@
+.container{:role => "main"}
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title Propietarios del Centro
+      .panel-body
+        %h3= "Centro: #{@center.nombre_centro}"
+        .row
+          .col-md-12
+            = simple_form_for( :ownersprop, url: newowner_centers_path, method: :post) do |f|
+              = f.error_notification
+              .form-inputs
+                = f.input :id_centro, :as => :hidden, :input_html => { :value => @center.id_centro }
+                = f.input :id_propietario, label: false, collection: Owner.for_select, :input_html => {:style=> 'width: 180px'}
+              .form-actions
+                = f.button :submit, "Agregar Propietario", :class => "btn btn-warning"
+        %br
+        %br
+        %br
+        %hr        
+        .row
+          .col-md-12
+            %h4 Propietarios:
+            %br
+            %br
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th Propietario
+                  %th Rut
+                  %th Email
+                  
+
+              %tbody
+                - @owners.each do |owner_center|
+                  %tr
+                    %td= owner_center.nombre_propietario
+                    %td= owner_center.rut_propietario
+                    %td= owner_center.email
+                   
+            %br
+            = link_to "Volver",centers_path,:class => "btn btn-warning"

@@ -1,5 +1,5 @@
 class CentersController < ApplicationController
-  before_action :set_center, only: [:show, :edit, :update, :destroy]
+  before_action :set_center, only: [:owners, :show, :edit, :update, :destroy]
   respond_to :html
 
   def index
@@ -33,6 +33,31 @@ class CentersController < ApplicationController
     @centers = Center.order(:nombre_centro)
     @center.destroy
     render 'index'
+  end
+
+  def owners
+    owners_prop  = OwnerProp.where(id_centro: @center.id_centro)
+    @owners = Owner.where(id_propietario: owners_prop.map{|o| o.id_propietario})
+  end
+
+  def newowner
+    begin
+      owner = Owner.where(id_propietario: params[:ownersprop][:id_propietario]).first 
+      ownerprop = OwnerProp.new
+      
+      ownerprop.id_propietario = params[:ownersprop][:id_propietario]
+      ownerprop.id_centro = params[:ownersprop][:id_centro]
+      ownerprop.email = owner.email
+      ownerprop.status = 'OK'
+      ownerprop.save
+    rescue
+    end  
+
+    owners_prop  = OwnerProp.where(id_centro: params[:ownersprop][:id_centro])
+    @owners = Owner.where(id_propietario: owners_prop.map{|o| o.id_propietario})
+    @center = Center.where(id_centro: params[:ownersprop][:id_centro]).first
+
+    render 'owners'
   end
 
   private
