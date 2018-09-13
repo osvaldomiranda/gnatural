@@ -6,6 +6,8 @@ CapistranoDeploy::Application.routes.draw do
   get "planyo/index"
   get "admin/index"
   get "admin/vta_origen_toxls"
+  get "admin/user_index"
+  get "admin/reset_pass"
 
 
   get "telephony/index"

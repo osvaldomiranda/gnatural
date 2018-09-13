@@ -13,4 +13,16 @@ class AdminController < ApplicationController
       format.xls 
     end
   end
+
+  def user_index
+    @users = User.all.order(:email)
+  end
+
+  def reset_pass
+    user = User.find(params[:user_id])
+    user.password = 'gnatural'
+    user.save
+    @users = User.all.order(:email)
+    redirect_to admin_user_index_path 
+  end
 end

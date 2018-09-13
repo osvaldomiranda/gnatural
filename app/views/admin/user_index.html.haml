@@ -1,0 +1,34 @@
+%br
+%br
+.container{:role => "main"}
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+      .panel-body
+        %h2 Usuarios
+        .row
+          .col-md-12 
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th Id
+                  %th Email
+                  %th Ultimo Acceso
+                  %th Cantidad de Accesos
+                  %th
+
+
+              %tbody
+                - @users.each do |user|
+                  %tr
+                    %td= user.id
+                    %td= user.email
+                    - if user.last_sign_in_at.present?
+                      %td= user.last_sign_in_at.strftime("%d/%m/%Y")
+                    - else
+                      %td  
+                    %td= user.sign_in_count
+                    %td= link_to 'Reset Password', admin_reset_pass_path(user_id: user.id), :data => { :confirm => 'Clave nueva: gnatural ' }
+
+
+            %br
