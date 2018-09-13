@@ -9,7 +9,7 @@ class KinesiologistsController < ApplicationController
     if params[:center].present?
       @kinesiologists = Kinesiologist.with_center(@id_centro)
     else
-      @kinesiologists = Kinesiologist.all 
+      @kinesiologists = Kinesiologist.all.order(:id_centro) 
     end
 
     

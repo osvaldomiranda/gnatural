@@ -29,7 +29,7 @@ class Event < ActiveRecord::Base
   end
 
   def self.mes_options_for_select
-    (1..12).map{|m| "#{m}-#{Date.today.year}"}
+    (1..12).map{|m| "#{m.to_s.rjust(2, '0')}-#{Date.today.year}"}
   end 
 end
 
