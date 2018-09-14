@@ -28,6 +28,8 @@ class AdminController < ApplicationController
 
   def kine_yield
     @id_centro = params[:center] || 1
+    @nombre_centro = Center.where(id_centro:@id_centro ).first.nombre_centro
+
     @yields= Hash.new
 
     sql = " SELECT t.login AS vta_origen, k.hh_mensuales AS hh, to_char(date_trunc('month', CAST(t.create_date_order AS DATE)), 'YYYY-MM') AS date , sum(t.price_subtotal_incl) FROM tablon2_anual t, kinesiologists k WHERE upper(t.login) = upper(k.nombre) AND t.id_centro=#{@id_centro} AND CAST(t.create_date_order AS DATE) > date_trunc('month', CURRENT_DATE) - INTERVAL '13 months' GROUP BY vta_origen, hh, date ORDER BY date, vta_origen"

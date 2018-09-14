@@ -13,7 +13,7 @@
           .col-md-4.text-center
             .form-inline
               = label_tag :filter_center, "CENTRO"
-              = select_tag :filter_center, options_for_select(OwnerProp.for_select(current_user.id), @id_centro), prompt: "Todos",class: "form-control" 
+              = select_tag :filter_center, options_for_select(OwnerProp.for_select(current_user.id), @id_centro), prompt: @nombre_centro,class: "form-control" 
         %rb
         %rb
         %hr
@@ -22,10 +22,10 @@
           .row
             %br
             %br
-            %br
-            %h3= element[0]     
+            %br    
             .row
               .col-md-12.text-center
+                %h3= element[0] 
                 = line_chart element[1].reduce({}, :merge), download: true 
     
 
