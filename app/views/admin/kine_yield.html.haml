@@ -1,0 +1,31 @@
+= javascript_include_tag "//www.google.com/jsapi", "chartkick" 
+%br
+%br
+.container{:role => "main"}
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+      .panel-body
+        %h2 
+          Kines
+        .row
+          %br  
+          .col-md-4.text-center
+            .form-inline
+              = label_tag :filter_center, "CENTRO"
+              = select_tag :filter_center, options_for_select(OwnerProp.for_select(current_user.id), @id_centro), prompt: "Todos",class: "form-control" 
+        %rb
+        %rb
+        %hr
+
+        - @yields.each do |element|
+          .row
+            %br
+            %br
+            %br
+            %h3= element[0]     
+            .row
+              .col-md-12.text-center
+                = line_chart element[1].reduce({}, :merge), download: true 
+    
+

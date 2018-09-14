@@ -8,6 +8,7 @@ CapistranoDeploy::Application.routes.draw do
   get "admin/vta_origen_toxls"
   get "admin/user_index"
   get "admin/reset_pass"
+  get "admin/kine_yield"
 
 
   get "telephony/index"

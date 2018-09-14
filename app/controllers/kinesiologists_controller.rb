@@ -44,6 +44,9 @@ class KinesiologistsController < ApplicationController
     respond_with(@kinesiologist)
   end
 
+  def value_hh
+  end
+
   private
     def set_kinesiologist
       @kinesiologist = Kinesiologist.find(params[:id])
