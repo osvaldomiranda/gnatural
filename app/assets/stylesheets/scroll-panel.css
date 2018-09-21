@@ -1,0 +1,5 @@
+.scroll-panel {
+  min-height: 1200px;
+  max-height: 1200px;
+  overflow-y: scroll;
+}

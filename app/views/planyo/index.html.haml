@@ -4,37 +4,120 @@
       .panel-heading
         %h3.panel-title Agenda Planyo
       .panel-body
-        .row
-          %br  
-          .col-md-4.text-center
-            .form-inline
-              = label_tag :filter_mes, "Mes"
-              = select_tag :filter_mes, options_for_select(Event.mes_options_for_select, @mes), prompt: @mes,class: "form-control" 
+        .scroll-panel
+          .row
+            %br  
+            .col-md-4.text-center
+              .form-inline
+                = label_tag :filter_center, "CENTRO"
+                = select_tag :filter_center, options_for_select(OwnerProp.for_select(current_user.id), @nombre_centro), prompt: @nombre_centro,class: "form-control" 
+            .col-md-8.text-center
+              %h4= "Usuario: #{current_user.email}"
+              %h4
+                Centros
+                %span.badge= current_user.owner_centers.count
 
-        %rb
-        %rb
-        %hr 
-        .row
-          .col-md-4
-            %h3= @mes
-                
-        .row
-          .col-md-12 
-            %table.table.table-striped
-              %thead
-                %tr
-                  %th
-                  - (1..Event.days_in_month(@month, @year)).each do |dia|
-                    %th= Event.day_name(Date.parse("#{dia}/#{@month}/#{@year}"))  
-                %tr
-                  %th
-                  - (1..Event.days_in_month(@month, @year)).each do |dia|
-                    %td= dia                 
-              %tbody
-                %tr
-                  %td Anticelulitis Beauty Shape
-                  - (1..Event.days_in_month(@month, @year)).each do |dia|
-                    %td= image_tag("disponible.png")
-        .row
-          .col-md-12 
-            = image_tag("planyo_status.png")
+          %hr      
+          .row
+            .col-md-4
+              %h4 Mes
+            .col-md-4
+              = image_tag("planyo_status.png")
+
+          .row
+            %h3
+              .col-md-4
+              .col-md-1.text-center
+                = link_to "<<", planyo_index_path(center: @id_centro, date: @date.prev_month)
+              .col-md-2.text-center  
+                = @date.strftime('%m-%Y')
+              .col-md-1.text-center  
+                = link_to ">>", planyo_index_path(center: @id_centro, date: @date.next_month)
+                  
+          .row
+            .col-md-12 
+              %table.table.table-responsive
+                %thead
+                  %tr
+                    %th
+                    - (1..Event.days_in_month(@date.strftime("%m").to_i,@date.strftime("%Y").to_i)).each do |dia|
+                      %th= Event.day_name(Date.parse("#{@date.strftime('%Y-%m')}-#{dia}"))  
+                  %tr
+                    %th
+                    - (1..Event.days_in_month(@date.strftime("%m").to_i,@date.strftime("%Y").to_i)).each do |dia|
+                      %td= dia                 
+                %tbody
+                  %tr
+                    - @tipos.each do |tipo|
+                      %td= tipo.name
+                      - (1..Event.days_in_month(@date.strftime("%m").to_i,@date.strftime("%Y").to_i)).each do |dia|
+                        - if Schedule.reservado(@id_centro, tipo.name, Date.parse("#{@date.strftime('%Y-%m')}-#{dia}"))
+                          %td= link_to image_tag("reservado.png"), planyo_index_path(center: @id_centro, date: "#{@date.strftime('%Y-%m')}-#{dia}") 
+                        - else
+                          %td= link_to image_tag("disponible.png"), planyo_index_path(center: @id_centro, date: "#{@date.strftime('%Y-%m')}-#{dia}") 
+          %rb
+          %rb
+          %hr 
+          .row
+            .col-md-12 
+              %h4 Dia
+            %h3
+              .col-md-4
+              .col-md-1.text-center
+                = link_to "<<", planyo_index_path(center: @id_centro, date: @date.prev_day)
+              .col-md-2.text-center  
+                = @date.strftime('%d-%m-%Y')
+              .col-md-1.text-center  
+                = link_to ">>", planyo_index_path(center: @id_centro, date: @date.next_day)
+          .row
+            .col-md-12 
+              %table.table.table-responsive
+                %thead
+                  %tr
+                    %th
+                    - Event.hours_in_day.each do |dia|  
+                      %td= dia.strftime("%I") 
+                  %tr
+                    %th    
+                    - Event.hours_in_day.each do |dia|  
+                      %td= dia.strftime("%M")       
+                %tbody
+                  %tr  
+                    - @tipos.each do |tipo|
+                      %td= tipo.name
+                      - Event.hours_in_day.each do |hora|
+                        - if Schedule.reservado_hora(@id_centro, tipo.name, "#{@date.strftime('%Y-%m-%d')} #{hora.strftime('%I:%M')}")
+                          %td= link_to image_tag("reservado.png"), planyo_index_path(center: @id_centro, date: "#{@date.strftime('%Y-%m-%d')}", datetime: "#{@date.strftime('%Y-%m-%d')} #{hora.strftime('%I:%M')}", tipo: tipo.name )  
+                        - else
+                          %td= image_tag("disponible.png")
+          - if @schedule.present?
+            %rb
+            %rb
+            %hr 
+            .row
+              .col-md-12 
+                %h4= @schedule.reservation_id
+                %h4= @schedule.name
+                %p= "Creado: #{@schedule.creation_time.strftime('%d-%m-%Y %I:%M')}"
+                %p= "Inicio: #{@schedule.start_time.strftime('%d-%m-%Y %I:%M')}"
+                %p= "Termino: #{@schedule.end_time.strftime('%d-%m-%Y %I:%M')}"
+                %p= "Nombres: #{@schedule.first_name}"
+                %p= "Apellidos: #{@schedule.last_name}"
+                %p= "Email: #{@schedule.email}"
+                %p= "#{@schedule.mobile_country_code} #{@schedule.mobile_number}"
+              
+              %hr  
+              .col-md-8  
+                %h3 Mensaje:
+                %p= @schedule.user_notes
+
+               
+
+
+
+
+
+
+
+
+

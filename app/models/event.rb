@@ -27,9 +27,17 @@ class Event < ActiveRecord::Base
     return 29 if month == 2 && Date.gregorian_leap?(year)
     COMMON_YEAR_DAYS_IN_MONTH[month]
   end
+  
+  def self.hours_in_day
+    time_start = DateTime.parse('2018-01-01 09:00:00')
+    time_end = time_start + 11.hour
+    [time_start].tap { |array| array << array.last + 15.minutes while array.last < time_end }
+  end
 
   def self.mes_options_for_select
     (1..12).map{|m| "#{m.to_s.rjust(2, '0')}-#{Date.today.year}"}
   end 
+
+
 end
 
