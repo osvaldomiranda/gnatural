@@ -1,7 +1,11 @@
 class Owner < ActiveRecord::Base
   self.table_name = "propietario"
+  self.primary_key = "id_propietario"
 
-  # validates :rut_propietario, presence: true, rutFormat: true
+  before_create :set_account_number
+  
+
+  validates :rut_propietario, presence: true, rutFormat: true
 
   def self.for_select
   	Owner.all.order(nombre_propietario: :asc).map {|t| [t.email, t.id_propietario]}
@@ -14,5 +18,10 @@ class Owner < ActiveRecord::Base
     else
       return nil
     end  
+  end
+
+  def set_account_number
+    last_account_number = Owner.maximum(:id_propietario)
+    self.id_propietario = last_account_number.to_i + 1
   end
 end

@@ -3,7 +3,7 @@ class OwnersController < ApplicationController
   respond_to :html
 
   def index
-    @owners = Owner.order(:nombre_propietario)
+    @owners = Owner.order(:email)
   end
 
   def show
@@ -30,7 +30,7 @@ class OwnersController < ApplicationController
   end
 
   def destroy
-    @owners = Owner.order(:nombre_propietario)
+    @owners = Owner.order(:email)
     @owner.destroy
     render 'index'
   end

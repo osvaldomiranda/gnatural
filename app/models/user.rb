@@ -55,7 +55,11 @@ class User < ActiveRecord::Base
 
 
   def owner_centers
-    OwnerProp.where(email: self.email)
+    if self.role?('admin')
+      OwnerProp.all
+    else  
+      OwnerProp.where(email: self.email)
+    end  
   end
 
 end
