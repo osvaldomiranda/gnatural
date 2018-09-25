@@ -11,7 +11,7 @@ class OwnersController < ApplicationController
   end
 
   def new
-    @owner = owner.new
+    @owner = Owner.new
     respond_with(@owner)
   end
 

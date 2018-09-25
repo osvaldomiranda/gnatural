@@ -23,7 +23,6 @@ CapistranoDeploy::Application.routes.draw do
 
   resources :comments
   resources :plans
-  resources :owner_centers
   resources :owners
   devise_for :users
 
@@ -36,31 +35,12 @@ CapistranoDeploy::Application.routes.draw do
 
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
-      resources :owner_centers do
-        collection do
-          get :actualize_center
-          get :create_new_owner
-        end
-      end
       resources :sessions do
         collection do
           post :login
           post :logout
         end
-      end
-
-      resources :planyo do
-        collection do
-          get :agenda
-        end
-      end      
-
-      resources :home do
-        collection do
-          get :index 
-          get :centers
-        end
-      end
+      end     
     end
   end
 
