@@ -17,10 +17,10 @@ class TelephonyController < ApplicationController
     @rut_centro = center.rut_centro 
     @nombre_centro = center.nombre_centro 
 
-    sql = "SELECT * FROM telefonia t, tef_centro c WHERE t.id_tef = c.id_tef AND c.id_centro = #{@id_centro} AND status= 'ANSWERED'"
+    sql = "SELECT * FROM telefonia t, tef_centro c WHERE t.id_tef = c.id_tef AND c.id_centro = #{@id_centro} AND status= 'ANSWERED' ORDER BY t.fecha_llamada"
     @answered_calls =  ActiveRecord::Base.connection.execute(sql).to_a
 
-    sql = "SELECT * FROM telefonia t, tef_centro c WHERE t.id_tef = c.id_tef AND c.id_centro = #{@id_centro} AND status= 'NO ANSWER'"
+    sql = "SELECT * FROM telefonia t, tef_centro c WHERE t.id_tef = c.id_tef AND c.id_centro = #{@id_centro} AND status= 'NO ANSWER' ORDER BY t.fecha_llamada"
     @unanswered_calls =  ActiveRecord::Base.connection.execute(sql).to_a
 
 
