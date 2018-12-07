@@ -20,6 +20,16 @@ class Owner < ActiveRecord::Base
     end  
   end
 
+  def self.permit
+    sql = "SELECT * FROM hora_act"
+    array =  ActiveRecord::Base.connection.execute(sql).to_a
+    if DateTime.parse(array.last["hora"]) < 2.day.a 
+      false
+    else
+      true
+    end    
+  end  
+
   def set_account_number
     last_account_number = Owner.maximum(:id_propietario)
     self.id_propietario = last_account_number.to_i + 1

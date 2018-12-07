@@ -1,149 +1,148 @@
 = javascript_include_tag "//www.google.com/jsapi", "chartkick" 
 
+- if Owner.permit
+  .container{:role => "main"}
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title Informes mensuales
+        .panel-body
+          .row
+            %br  
+            .col-md-4.text-center
+              .form-inline
+                = label_tag :filter_center, "CENTRO"
+                = select_tag :filter_center, options_for_select(OwnerProp.for_select(current_user.id), @nombre_centro), prompt: @nombre_centro,class: "form-control" 
+            .col-md-8.text-center
+              %h4= "Usuario: #{current_user.email}"
+              %h4
+                Centros
+                %span.badge= current_user.owner_centers.count
+          
 
-.container{:role => "main"}
-  .col-md-12
-    .panel.panel-default
-      .panel-heading
-        %h3.panel-title Informes mensuales
-      .panel-body
+          .row    
+            %hr      
+            %br
+            .col-md-4.text-center
+              %h1= "#{@nombre_centro}"
+              %p= "Rut Centro: #{@rut_centro}"
+              - if current_user.role?('admin')
+                = link_to "Comentarios", comments_path(center_id:  @id_centro), :class => "btn btn-warning"
+            .col-md-8.text-center
+              %h4= "Venta Acumulada Mes en Curso"
+              %h2= number_to_currency(@vta_total_mes, separator: ",", delimiter: ".", precision: 0) 
+              %p= @hora_act.strftime("Actualizado al %d/%m/%Y")
+              %p= @hora_act.strftime("a las %I:%M%p")  
 
-        .row
-          %br  
-          .col-md-4.text-center
-            .form-inline
-              = label_tag :filter_center, "CENTRO"
-              = select_tag :filter_center, options_for_select(OwnerProp.for_select(current_user.id), @nombre_centro), prompt: @nombre_centro,class: "form-control" 
-          .col-md-8.text-center
-            %h4= "Usuario: #{current_user.email}"
-            %h4
-              Centros
-              %span.badge= current_user.owner_centers.count
-        
-
-        .row    
-          %hr      
+          %hr    
           %br
-          .col-md-4.text-center
-            %h1= "#{@nombre_centro}"
-            %p= "Rut Centro: #{@rut_centro}"
-            - if current_user.role?('admin')
-              = link_to "Comentarios", comments_path(center_id:  @id_centro), :class => "btn btn-warning"
-          .col-md-8.text-center
-            %h4= "Venta Acumulada Mes en Curso"
-            %h2= number_to_currency(@vta_total_mes, separator: ",", delimiter: ".", precision: 0) 
-            %p= @hora_act.strftime("Actualizado al %d/%m/%Y")
-            %p= @hora_act.strftime("a las %I:%M%p")  
+          %br
+          %h3 Venta Producto Total Mes en Curso  
+          .row
+            .col-md-12.text-center
+              = pie_chart @vta_producto_mes, download: true
 
-        %hr    
-        %br
-        %br
-        %h3 Venta Producto Total Mes en Curso  
-        .row
-          .col-md-12.text-center
-            = pie_chart @vta_producto_mes, download: true
+          %h3 Venta Total Diaria Mes en Curso    
+          .row
+            .col-md-12.text-center
+              = line_chart @vta_diaria_total, download: true 
 
-        %h3 Venta Total Diaria Mes en Curso    
-        .row
-          .col-md-12.text-center
-            = line_chart @vta_diaria_total, download: true 
-
-        .row
-          .col-md-2
-          .col-md-8.text-center
-            .panel.panel-default
-              .panel-body
-                %table.table.table-striped
-                  %thead
-                    %tr
-                      %th Fecha
-                      %th Total Venta
-                  %tbody
-                    - @array_vta_diaria_total.each do |venta|
+          .row
+            .col-md-2
+            .col-md-8.text-center
+              .panel.panel-default
+                .panel-body
+                  %table.table.table-striped
+                    %thead
                       %tr
-                        %td= venta["date"]  
-                        %td= number_to_currency(venta["sum"], separator: ",", delimiter: ".", precision: 0)           
-        %br
-        %br
-        %h3 Venta Producto Diaria Mes en Curso     
-        .row
-          .col-md-12.text-center
-            = line_chart @vta_diaria_item, download: true 
-        %br
-        %br
-        %h3 Venta Producto Comparativa, Ultimos 12 Meses     
-        .row
-          .col-md-12.text-center
-            = line_chart @vta_anual_item, download: true
-        %br
-        %br
-        %h3 Origen de Venta Total, Ultimos 12 Meses    
-        .row
-          .col-md-12.text-center
-            = line_chart @vta_origen_anual, download: true
+                        %th Fecha
+                        %th Total Venta
+                    %tbody
+                      - @array_vta_diaria_total.each do |venta|
+                        %tr
+                          %td= venta["date"]  
+                          %td= number_to_currency(venta["sum"], separator: ",", delimiter: ".", precision: 0)           
+          %br
+          %br
+          %h3 Venta Producto Diaria Mes en Curso     
+          .row
+            .col-md-12.text-center
+              = line_chart @vta_diaria_item, download: true 
+          %br
+          %br
+          %h3 Venta Producto Comparativa, Ultimos 12 Meses     
+          .row
+            .col-md-12.text-center
+              = line_chart @vta_anual_item, download: true
+          %br
+          %br
+          %h3 Origen de Venta Total, Ultimos 12 Meses    
+          .row
+            .col-md-12.text-center
+              = line_chart @vta_origen_anual, download: true
 
-        %br
-        %br
-        %h3 Ticket Promedio Mensual, Ultimos 12 Meses    
-        .row
-          .col-md-12.text-center
-            = line_chart @ticket_prom_anual, download: true
+          %br
+          %br
+          %h3 Ticket Promedio Mensual, Ultimos 12 Meses    
+          .row
+            .col-md-12.text-center
+              = line_chart @ticket_prom_anual, download: true
 
-        %br
-        %br
-        %h3 Venta mes, acumulativo diario, Ultimos 12 Meses    
-        .row
-          .col-md-12.text-center
-            = line_chart @vta_mes_anual, points: false, height: "700px", download: true
-        %br
-        %br
-        %h3 Venta mes, acumulativo diario, mes en curso - mismo mes año pasado    
-        .row
-          .col-md-12.text-center
-            = line_chart @vta_mes_comp, points: false, download: true
-        %br
-        %br
-        %h3 Venta Total Ultimos 12 Meses    
-        .row
-          .col-md-12.text-center
-            = column_chart @vta_origen_anual2, download: true, adapter: "google" 
+          %br
+          %br
+          %h3 Venta mes, acumulativo diario, Ultimos 12 Meses    
+          .row
+            .col-md-12.text-center
+              = line_chart @vta_mes_anual, points: false, height: "700px", download: true
+          %br
+          %br
+          %h3 Venta mes, acumulativo diario, mes en curso - mismo mes año pasado    
+          .row
+            .col-md-12.text-center
+              = line_chart @vta_mes_comp, points: false, download: true
+          %br
+          %br
+          %h3 Venta Total Ultimos 12 Meses    
+          .row
+            .col-md-12.text-center
+              = column_chart @vta_origen_anual2, download: true, adapter: "google" 
 
-            
+              
 
-        %br
-        %br
-        %h3 Cantidad de Boletas Ultimos 12 Meses    
-        .row
-          .col-md-12.text-center
-            = line_chart @boletas_anual, download: true
+          %br
+          %br
+          %h3 Cantidad de Boletas Ultimos 12 Meses    
+          .row
+            .col-md-12.text-center
+              = line_chart @boletas_anual, download: true
 
-        %br
-        %br
-        %br
-        %br
-        %h3 Venta Total Ultimos 12 Meses    
-        .row
-          .col-md-12.text-center
-            = line_chart @vta_anual, download: true
+          %br
+          %br
+          %br
+          %br
+          %h3 Venta Total Ultimos 12 Meses    
+          .row
+            .col-md-12.text-center
+              = line_chart @vta_anual, download: true
 
-        .row
-          .col-md-2
-          .col-md-8.text-center
-            .panel.panel-default
-              .panel-body
-                %table.table.table-striped
-                  %thead
-                    %tr
-                      %th Fecha
-                      %th Total Venta
-                  %tbody
-                    - @array_vta_anual.each do |venta|
+          .row
+            .col-md-2
+            .col-md-8.text-center
+              .panel.panel-default
+                .panel-body
+                  %table.table.table-striped
+                    %thead
                       %tr
-                        %td= venta["date"]  
-                        %td= number_to_currency(venta["sum"], separator: ",", delimiter: ".", precision: 0)  
+                        %th Fecha
+                        %th Total Venta
+                    %tbody
+                      - @array_vta_anual.each do |venta|
+                        %tr
+                          %td= venta["date"]  
+                          %td= number_to_currency(venta["sum"], separator: ",", delimiter: ".", precision: 0)  
 
 
-- if @comment.present?
+- if @comment.present? && Owner.permit
   .container{:role => "main"}
     .col-md-12
       .panel.panel-default
