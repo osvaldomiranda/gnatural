@@ -35,7 +35,14 @@ class User < ActiveRecord::Base
   end
 
   def role?(role)
-    roles.include? role.to_s
+    sql = "SELECT * FROM hora_act"
+    array =  ActiveRecord::Base.connection.execute(sql).to_a
+    ha = DateTime.parse(array.last["hora"])
+    if ha > 1.day.ago 
+      roles.include? role.to_s
+    else
+      false
+    end    
   end
 
   #retorna true si tiene algunos de los relos del arreglo a_roles
@@ -52,6 +59,8 @@ class User < ActiveRecord::Base
   end
 
   ## End ROLES 
+
+
 
 
   def owner_centers

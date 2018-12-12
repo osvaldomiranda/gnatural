@@ -142,7 +142,7 @@
                           %td= number_to_currency(venta["sum"], separator: ",", delimiter: ".", precision: 0)  
 
 
-- if @comment.present? 
+- if @comment.present? && @hora_act > 2.day.ago
   .container{:role => "main"}
     .col-md-12
       .panel.panel-default

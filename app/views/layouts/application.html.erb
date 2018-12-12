@@ -9,6 +9,7 @@
 <body>
 
   <% if current_user.present? %>
+  <% if current_user.role?("ownercenter") %>
  
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
@@ -134,12 +135,13 @@
 
 
 <% end %>
+<% end %>
 </br>
 </br>
 </br>
 
-
-<%= yield %>
-
+<% if current_user.role?("ownercenter") %>
+  <%= yield %>
+<% end %>
 </body>
 </html>
