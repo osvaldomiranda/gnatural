@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   def role?(role)
     sql = "SELECT * FROM hora_act"
     array =  ActiveRecord::Base.connection.execute(sql).to_a
-    ha = DateTime.parse(array.last["hora"])
+    ha = DateTime.parse(array.last["hora"]).first
     if ha > 1.day.ago 
       roles.include? role.to_s
     else
